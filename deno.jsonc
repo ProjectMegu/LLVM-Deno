@@ -1,0 +1,28 @@
+{
+  "fmt": {
+    "include": [
+      "**/*.ts",
+      "**/*.js"
+    ]
+  },
+  "lint": {
+    "include": [
+      "**/*.ts",
+      "**/*.js"
+    ]
+  },
+  "test": {
+    "include": [
+        "**/*.ts",
+        "**/*.js"
+    ]
+  },
+  "compilerOptions": {
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true
+  }
+}

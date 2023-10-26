@@ -22,3 +22,6 @@ RUN \
     wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
     apt-get update && \
     apt-get install -y clang-17 lld-17 llvm-17 llvm-17-dev 
+
+# set pass
+RUN echo 'export PATH=$PATH:/root/.deno/bin' >> /root/.bashrc
