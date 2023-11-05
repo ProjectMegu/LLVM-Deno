@@ -1,7 +1,7 @@
 on: push
 
 env:
-    IMAGE_NAME: LLDENO
+    IMAGE_NAME: lldeno
     # LLDENO_17: /usr/lib/llvm-17/lib/libLLVM.so
 
 
