@@ -25,3 +25,5 @@ RUN \
 
 # set pass
 RUN echo 'export PATH=$PATH:/root/.deno/bin' >> /root/.bashrc
+
+ENV LLDENO_17=/usr/lib/llvm-17/lib/libLLVM.so

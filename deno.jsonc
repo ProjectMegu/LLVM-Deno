@@ -13,10 +13,15 @@
   },
   "test": {
     "include": [
-        "**/*.ts",
-        "**/*.js"
+        "**/*_test.ts",
+        "**/*_test.js"
     ]
   },
+
+  "tasks": {
+    "test": "deno test --unstable --allow-env --allow-ffi"
+  },
+
   "compilerOptions": {
     "strict": true,
     "noFallthroughCasesInSwitch": true,

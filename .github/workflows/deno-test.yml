@@ -1,0 +1,50 @@
+on: push
+
+env:
+    IMAGE_NAME: LLDENO
+    # LLDENO_17: /usr/lib/llvm-17/lib/libLLVM.so
+
+
+jobs:
+    tests:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+            - name: Create image tag
+              id: image_tag
+              run: |
+                HASH="${{ hashFiles('./.devcontainer/Dockerfile') }}"
+                TAG="${{ env.IMAGE_NAME }}:${HASH}"
+                CPATH="/tmp/docker_cache"
+                TNAME="${HASH}.tar"
+                TPATH="${CPATH}/${TNAME}"
+                echo "HASH=${HASH}" >> $GITHUB_OUTPUT
+                echo "TAG=${TAG}" >> $GITHUB_OUTPUT
+                echo "CPATH=${CPATH}" >> $GITHUB_OUTPUT
+                echo "TNAME=${TNAME}" >> $GITHUB_OUTPUT
+                echo "TPATH=${TPATH}" >> $GITHUB_OUTPUT
+            - name: Enable cache
+              id: cache
+              uses: actions/cache@v3
+              with:
+                path: ${{ steps.image_tag.outputs.CPATH }}
+                key: ${{ steps.image_tag.outputs.HASH }}
+            - name: Load Image
+              if: steps.cache.outputs.cache-hit == 'true'
+              run: |
+                docker load -i ${{ steps.image_tag.outputs.TPATH }}
+            - name: Build Image
+              if: steps.cache.outputs.cache-hit != 'true'
+              run: |
+                docker build -t ${{ steps.image_tag.outputs.TAG }}
+                mkdir -p ${{ steps.image_tag.outputs.CPATH }}
+                docker save ${{ steps.image_tag.outputs.TAG }} > ${{ steps.image_tag.outputs.TPATH }}
+            
+            - name: Lanch Container
+              run: |
+                docker run -t --name lldeno -v ${{ github.workspace }}:/work -w /work ${{ steps.image_tag.outputs.TAG }}
+            
+            - name: Test
+              run: |
+                docker exec -e LLDENO_17=/usr/lib/llvm-17/lib/libLLVM.so -w /work lldeno deno task test
