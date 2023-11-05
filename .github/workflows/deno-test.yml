@@ -43,4 +43,4 @@ jobs:
             
             - name: Test
               run: |
-                docker run --name lldeno -v ${{ github.workspace }}:/work -w /work ${{ steps.image_tag.outputs.TAG }} deno task test
+                docker run --name lldeno -v ${{ github.workspace }}:/work -w /work ${{ steps.image_tag.outputs.TAG }} /root/.deno/bin/deno task test
