@@ -3,10 +3,10 @@
 // example: /usr/lib/llvm-17/lib/libLLVM.so
 
 // Load LLVM Path
-const path = Deno.env.get("LLDENO-17")
+const path = Deno.env.get("LLDENO_17")
 
 if (typeof path !== "string") {
-    console.log("'LLDENO-17' is not define. Please set value to 'LLDENO-17'.")
+    console.log("'LLDENO_17' is not define. Please set value to 'LLDENO_17'.")
     Deno.exit(1)
 }
 
@@ -16,4 +16,3 @@ if (typeof path !== "string") {
  * Linux: /usr/lib/llvm-17/lib/libLLVM.so
 */
 export const LLVMPath = path as string
-
