@@ -41,10 +41,6 @@ jobs:
                 mkdir -p ${{ steps.image_tag.outputs.CPATH }}
                 docker save ${{ steps.image_tag.outputs.TAG }} > ${{ steps.image_tag.outputs.TPATH }}
             
-            - name: Lanch Container
-              run: |
-                docker run -t --name lldeno -v ${{ github.workspace }}:/work -w /work ${{ steps.image_tag.outputs.TAG }}
-            
             - name: Test
               run: |
-                docker exec -e LLDENO_17=/usr/lib/llvm-17/lib/libLLVM.so -w /work lldeno deno task test
+                docker run --name lldeno -v ${{ github.workspace }}:/work -w /work ${{ steps.image_tag.outputs.TAG }} deno task test
